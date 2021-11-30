@@ -26,7 +26,7 @@
 https://github.com/angular-vietnam/100-days-of-angular
 https://github.com/nccasia/ncc-angular
 
-### [How to Write Cleaner React Code](https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/)
+### [How to Write Cleaner Code](https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/)
 - https://angular.io/guide/styleguide#angular-coding-style-guide
 - https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/
 - https://itnext.io/clean-code-checklist-in-angular-%EF%B8%8F-10d4db877f74
