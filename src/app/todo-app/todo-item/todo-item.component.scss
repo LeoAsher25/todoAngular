@@ -1,0 +1,59 @@
+@import "../../../variable";
+
+.todo-item {
+  padding: 0.8rem 2rem;
+  display: flex;
+  border-top: 1px solid #ccc;
+
+  &.is-completed {
+    & > * {
+      opacity: 0.5;
+    }
+    .todo-text {
+      text-decoration: line-through;
+    }
+
+    .todo-btn {
+      pointer-events: none;
+    }
+  }
+
+  .is-completed-checkbox {
+    text-align: center;
+    vertical-align: middle;
+    margin: auto 2rem auto 0;
+  }
+
+  .todo-text {
+    font-size: 1.6rem;
+
+    .deadline {
+      font-size: 1.5rem;
+      color: #666;
+    }
+  }
+
+  .action-wrap {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+
+    .todo-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-left: 1rem;
+
+      &:nth-child(1):hover {
+        background-color: $primary-color;
+      }
+      &:nth-child(2):hover {
+        background-color: $warning-color;
+      }
+      &:nth-child(3):hover {
+        background-color: $danger-color;
+      }
+    }
+  }
+}

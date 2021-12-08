@@ -1,0 +1,56 @@
+<ng-template
+  #functionalBtn
+  let-label="label"
+  let-handleBtnClick="handleBtnClick"
+  let-value="value"
+>
+  <input
+    type="button"
+    [value]="value ? value : ''"
+    (click)="handleBtnClick($event)"
+    [class]="['functional-btn', 'button']"
+    [class.active]="currentFilter === value"
+  />
+</ng-template>
+
+<div class="functional-btn-wrap">
+  <ng-container
+    [ngTemplateOutlet]="functionalBtn"
+    [ngTemplateOutletContext]="{
+      value: 'Add a Todo',
+      label: 'Add a Todo',
+      handleBtnClick: handleAddBtnClick
+    }"
+  >
+  </ng-container>
+
+  <ng-template
+    [ngTemplateOutlet]="functionalBtn"
+    [ngTemplateOutletContext]="{
+      value: ETodoFilter.All,
+      label: 'All',
+      handleBtnClick: handleFilterBtnClick
+    }"
+  >
+  </ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="functionalBtn"
+    [ngTemplateOutletContext]="{
+      value: ETodoFilter.Active,
+      label: 'Active',
+      handleBtnClick: handleFilterBtnClick
+    }"
+  >
+  </ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="functionalBtn"
+    [ngTemplateOutletContext]="{
+      value: ETodoFilter.Completed,
+      label: 'Completed',
+      handleBtnClick: handleFilterBtnClick
+    }"
+  >
+  </ng-template>
+</div>
