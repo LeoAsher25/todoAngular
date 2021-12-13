@@ -1,0 +1,14 @@
+.todo-list {
+  todo-item {
+    & + todo-item {
+      border-top: 1px solid #ccc;
+    }
+  }
+
+  border-bottom: 1px solid #ccc;
+}
+
+.app-footer {
+  text-align: center;
+  margin: 1.4rem auto;
+}

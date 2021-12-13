@@ -1,0 +1,69 @@
+<div class="dialog">
+  <div
+    class="dialog-overlay"
+    [hidden]="!dialogOpen"
+    (click)="handleCloseBtnClick()"
+  ></div>
+
+  <div class="dialog-wrap">
+    <div class="title">
+      {{
+        dialogType === EDialogType.VIEW
+          ? "View todo: " + currentTodoName
+          : dialogType === EDialogType.EDIT
+          ? "Edit todo: " + currentTodoName
+          : "Add new todo"
+      }}
+    </div>
+
+    <div class="dialog-content">
+      <form action="">
+        <div class="form-gr">
+          <label for="name" class="label"> Todo name: </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            autocomplete="off"
+            [(ngModel)]="currentTodo.name"
+            (blur)="checkInputName()"
+            (keyup.enter)="handleFormSubmit()"
+            placeholder="Todo name"
+            [disabled]="dialogType === EDialogType.VIEW"
+          />
+          <span class="alert" *ngIf="alertEmpty.name"
+            >TodoName không được để trống!</span
+          >
+        </div>
+
+        <div class="form-gr">
+          <label for="deadline" class="label"> Deadline: </label>
+          <input
+            type="datetime-local"
+            name="deadline"
+            id="deadline"
+            [(ngModel)]="currentTodo.deadline"
+            (blur)="checkInputDeadline()"
+            (keyup.enter)="handleFormSubmit()"
+            [disabled]="dialogType === EDialogType.VIEW"
+          />
+          <span class="alert" *ngIf="alertEmpty.deadline"
+            >Deadline không được để trống!</span
+          >
+        </div>
+      </form>
+    </div>
+
+    <div class="dialog-action">
+      <button
+        (click)="handleFormSubmit()"
+        class="dialog-btn"
+        [hidden]="dialogType === EDialogType.VIEW"
+      >
+        {{ dialogType === EDialogType.ADD ? "Add" : "Save" }}
+      </button>
+
+      <button class="dialog-btn" (click)="handleCloseBtnClick()">Close</button>
+    </div>
+  </div>
+</div>
