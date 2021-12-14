@@ -2,6 +2,7 @@ import { TodoService } from './../../services/todo.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EDialogType, ETodoFilter, ITodo } from 'src/app/type';
+import { FromEventTarget } from 'rxjs/internal/observable/fromEvent';
 
 @Component({
   selector: 'functional-btn-wrap',
@@ -9,28 +10,24 @@ import { EDialogType, ETodoFilter, ITodo } from 'src/app/type';
   styleUrls: ['./functional-btn-wrap.component.scss'],
 })
 export class FunctionalBtnWrapComponent implements OnInit {
-  @Input() handleDialogOpen!: (
-    isOpen: boolean,
-    dialogType?: EDialogType,
-    currentTodo?: ITodo
-  ) => void;
-
-  ETodoFilter = ETodoFilter;
-
-  currentFilter = ETodoFilter.All;
-
   constructor(
     private readonly router: Router,
     private todoService: TodoService
   ) {}
 
-  handleAddBtnClick = (e: any) => {
+  ETodoFilter = ETodoFilter;
+  currentFilter = this.todoService.getCurrentFilter();
+
+  handleAddBtnClick = () => {
     this.router.navigate(['/add-new-todo']);
   };
 
-  handleFilterBtnClick = (e: any) => {
-    this.currentFilter = e.target.value;
-    this.todoService.setCurrentFilter(this.currentFilter);
+  handleFilterBtnClick = (e: Event) => {
+    this.todoService.setCurrentFilter(
+      (e.target as HTMLInputElement).value as ETodoFilter
+    );
+    this.currentFilter = this.todoService.getCurrentFilter();
+    this.todoService.handleFilter();
   };
 
   ngOnInit(): void {}

@@ -15,7 +15,7 @@ export class TodoApiService {
     return this.http.get<ITodo[]>(environment.serveUrl);
   }
 
-  deleteTodoApi(id: number): Observable<ITodo> {
+  deleteTodoApi(id: string): Observable<ITodo> {
     return this.http.delete<ITodo>(`${environment.serveUrl}/${id}`);
   }
 

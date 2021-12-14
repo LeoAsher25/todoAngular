@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ITodo } from 'src/app/type';
+import * as moment from 'moment';
 
 @Component({
   selector: 'todo-item',
@@ -26,7 +27,6 @@ export class TodoItemComponent implements OnInit {
 
   handleEditBtnClick = () => {
     this.router.navigate([`edit/${this.todo.id}`]);
-
     this.handleEditTodo.emit(this.todo);
   };
 
@@ -39,5 +39,23 @@ export class TodoItemComponent implements OnInit {
       ...this.todo,
       isCompleted: !this.todo.isCompleted,
     });
+  }
+
+  isExpireSoon() {
+    if (
+      !this.todo.isCompleted &&
+      moment(this.todo.deadline).isAfter(moment())
+    ) {
+      const dl = moment(this.todo.deadline);
+      const now = moment();
+      return dl.diff(now, 'minutes') < 60;
+    }
+    return false;
+  }
+
+  isExpired() {
+    return (
+      !this.todo.isCompleted && moment(this.todo.deadline).isBefore(moment())
+    );
   }
 }

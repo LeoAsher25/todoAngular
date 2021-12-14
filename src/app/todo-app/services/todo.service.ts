@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EDialogType, ETodoFilter, ITodo } from 'src/app/type';
 import { TodoApiService } from './todo-api.service';
@@ -7,22 +8,20 @@ import { TodoApiService } from './todo-api.service';
   providedIn: 'root',
 })
 export class TodoService implements OnInit {
-  constructor(private todoApiService: TodoApiService) {}
+  constructor(
+    private todoApiService: TodoApiService,
+    private toast: ToastrService
+  ) {}
 
   private todos!: ITodo[]; // list todo
 
   private filteredTodosSubject: BehaviorSubject<ITodo[]> = new BehaviorSubject<
     ITodo[]
-  >([]); // filtered list todo Subject of list todos! // follow filteredTodos
+  >([]);
   filteredTodos$: Observable<ITodo[]> =
     this.filteredTodosSubject.asObservable();
 
-  // private currentFilter: ETodoFilter = ETodoFilter.All; // current filter
-  private currentFilterSubject = new BehaviorSubject<ETodoFilter>(
-    ETodoFilter.All
-  );
-  currentFilter$ = this.currentFilterSubject.asObservable();
-
+  //selectedTodo
   private selectedTodoSubject: BehaviorSubject<ITodo> =
     new BehaviorSubject<ITodo>({
       id: '0',
@@ -33,66 +32,107 @@ export class TodoService implements OnInit {
 
   selectedTodo$ = this.selectedTodoSubject.asObservable();
 
-  dialogType: EDialogType = EDialogType.ADD;
+  //  currentFilter
+  private currentFilterSubject = new BehaviorSubject<ETodoFilter>(
+    ETodoFilter.All
+  );
+  currentFilter$ = this.currentFilterSubject.asObservable();
 
   setCurrentFilter(value: ETodoFilter) {
     this.currentFilterSubject.next(value);
   }
 
+  getCurrentFilter(): ETodoFilter {
+    return this.currentFilterSubject.getValue();
+  }
+
+  // dialogType
+  dialogType: EDialogType = EDialogType.ADD;
+
   setDialogType(value: EDialogType) {
     this.dialogType = value;
   }
 
-  getAllTodo() {
-    this.todoApiService
-      .getAllTodoApi()
-      .subscribe((todos) => (this.todos = todos));
-
-    this.filteredTodosSubject.next(this.todos);
+  getDialogType(): EDialogType {
+    return this.dialogType;
   }
 
-  filterTodos(filter: ETodoFilter) {
-    this.currentFilterSubject.next(filter);
-
-    switch (filter) {
-      case ETodoFilter.Active:
-        this.filteredTodosSubject.next(
-          this.todos.filter((todo: ITodo) => !todo.isCompleted)
-        );
-        break;
-
-      case ETodoFilter.Completed:
-        this.filteredTodosSubject.next(
-          this.todos.filter((todo: ITodo) => todo.isCompleted)
-        );
-        break;
-
-      case ETodoFilter.All:
-        this.filteredTodosSubject.next([
-          ...this.todos.map((todo) => ({ ...todo })),
-        ]);
-    }
+  //methods
+  getAllTodo() {
+    this.todoApiService.getAllTodoApi().subscribe(
+      (todos) => {
+        this.todos = todos;
+        this.filteredTodosSubject.next(this.todos);
+        this.handleFilter();
+      },
+      (error) => this.toast.error(error.message)
+    );
   }
 
   addTodo(newTodo: ITodo) {
     const date = new Date(Date.now()).getTime();
     newTodo.id = date.toString();
-    this.todos.unshift({ ...newTodo });
+    this.todoApiService.addTodoApi(newTodo).subscribe(
+      (addedTodo) => {
+        this.todos.push({ ...addedTodo });
+        this.filteredTodosSubject.next(this.todos);
+        this.handleFilter();
+        this.toast.success('Add todo successfully!');
+      },
+      (error) => this.toast.error(error.message)
+    );
   }
 
   updateTodo(updatedTodo: ITodo) {
-    const currentIndex = this.todos.findIndex(
-      (todoItem) => todoItem.id === updatedTodo.id
+    this.todoApiService.putTodoApi(updatedTodo).subscribe(
+      (newTodo) => {
+        this.todos = this.todos.map((todo) =>
+          todo.id === newTodo.id ? newTodo : todo
+        );
+        this.filteredTodosSubject.next(this.todos);
+        this.handleFilter();
+        this.toast.success('Update todo successfully!');
+      },
+      (error) => this.toast.error(error.message)
     );
-    this.todos.splice(currentIndex, 1, updatedTodo);
   }
 
   deleteTodo(deletedTodo: ITodo) {
-    this.todos = this.todos.filter((todo: ITodo) => todo.id !== deletedTodo.id);
+    this.todoApiService.deleteTodoApi(deletedTodo.id).subscribe(
+      (delTodo) => {
+        this.todos = this.todos.filter((todo) => todo.id !== delTodo.id);
+        this.filteredTodosSubject.next(this.todos);
+        this.handleFilter();
+        this.toast.success('Add todo successfully!');
+      },
+      (error) => {
+        this.toast.error(error.message);
+      }
+    );
   }
 
   getATodo(todo: ITodo) {
     this.selectedTodoSubject.next(todo);
+  }
+
+  handleFilter() {
+    switch (this.currentFilterSubject.getValue()) {
+      case ETodoFilter.Active:
+        this.filteredTodosSubject.next(
+          this.todos.filter((todo) => !todo.isCompleted)
+        );
+        break;
+
+      case ETodoFilter.Completed:
+        this.filteredTodosSubject.next(
+          this.todos.filter((todo) => todo.isCompleted)
+        );
+        break;
+
+      case ETodoFilter.All:
+        this.filteredTodosSubject.next([...this.todos]);
+        break;
+    }
   }
 
   ngOnInit(): void {}

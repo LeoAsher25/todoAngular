@@ -8,13 +8,13 @@
   </button>
 </ng-template>
 
-<div class="todo-item" [class.is-completed]="todo?.isCompleted">
+<div class="todo-item" [class.is-completed]="todo.isCompleted">
   <div class="is-completed-checkbox">
     <input
       type="checkbox"
       name="isCompleted"
       id="is-completed"
-      [checked]="todo?.isCompleted"
+      [checked]="todo.isCompleted"
       (change)="changeTodoStatus()"
     />
   </div>
@@ -24,6 +24,12 @@
     <div class="deadline">
       Deadline:
       {{ todo.deadline ? (todo.deadline | date: "short") : "No deadline" }}
+      <span *ngIf="isExpireSoon()" class="alert-deadline alert-expire-soon">
+        Expire soon!
+      </span>
+      <span *ngIf="isExpired()" class="alert-deadline alert-expired">
+        Expired!
+      </span>
     </div>
   </div>
 
