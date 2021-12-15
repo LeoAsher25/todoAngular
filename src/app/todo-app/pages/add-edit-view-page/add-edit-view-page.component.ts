@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TodoService } from 'src/app/todo-app/services/todo.service';
 import { EDialogType, ITodo } from 'src/app/type';
-import { TodoService } from './../../services/todo.service';
 
 @Component({
   selector: 'add-edit-view-page',
@@ -75,9 +75,13 @@ export class AddEditViewPageComponent implements OnInit {
     this.checkInputDeadline();
 
     if (!this.alertEmpty.name && !this.alertEmpty.deadline) {
-      this.dialogType === EDialogType.ADD
-        ? this.todoService.addTodo(this.currentTodo)
-        : this.todoService.updateTodo(this.currentTodo);
+      if (this.dialogType === EDialogType.ADD)
+        this.todoService.addTodo(this.currentTodo);
+      else {
+        this.todoService.updateTodo(this.currentTodo);
+        this.currentTodo.name = '';
+        this.currentTodo.deadline = null;
+      }
 
       this.router.navigate(['']);
     }

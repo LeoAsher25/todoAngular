@@ -1,6 +1,5 @@
+import { AddEditViewPageComponent } from 'src/app/todo-app/pages/add-edit-view-page/add-edit-view-page.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AddEditViewPageComponent } from './add-edit-view-page.component';
 
 describe('AddEditViewPageComponent', () => {
   let component: AddEditViewPageComponent;
@@ -8,9 +7,8 @@ describe('AddEditViewPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEditViewPageComponent ]
-    })
-    .compileComponents();
+      declarations: [AddEditViewPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
