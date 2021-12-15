@@ -1,0 +1,39 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
+import { FunctionalBtnWrapComponent } from 'src/app/modules/todo-app/components/functional-btn-wrap/functional-btn-wrap.component';
+import { TodoItemComponent } from 'src/app/modules/todo-app/components/todo-item/todo-item.component';
+import { TodoListComponent } from 'src/app/modules/todo-app/components/todo-list/todo-list.component';
+import { AddEditViewPageComponent } from 'src/app/modules/todo-app/pages/add-edit-view-page/add-edit-view-page.component';
+import { HomePageComponent } from 'src/app/modules/todo-app/pages/home-page/home-page.component';
+import { TodoAppRoutingModule } from 'src/app/modules/todo-app/todo-app-routing.module';
+import { TodoAppComponent } from 'src/app/modules/todo-app/todo-app.component';
+
+@NgModule({
+  declarations: [
+    TodoListComponent,
+    TodoItemComponent,
+    FunctionalBtnWrapComponent,
+    AddEditViewPageComponent,
+    HomePageComponent,
+    TodoAppComponent,
+  ],
+  imports: [
+    CommonModule,
+    TodoAppRoutingModule,
+    RouterModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 2500,
+      progressBar: true,
+      closeButton: true,
+    }),
+  ],
+})
+export class TodoAppModule {}

@@ -1,8 +1,7 @@
-import { TodoService } from './../../services/todo.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { EDialogType, ETodoFilter, ITodo } from 'src/app/type';
-import { FromEventTarget } from 'rxjs/internal/observable/fromEvent';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
+import { ETodoFilter } from 'src/app/modules/todo-app/type';
 
 @Component({
   selector: 'functional-btn-wrap',
@@ -12,14 +11,16 @@ import { FromEventTarget } from 'rxjs/internal/observable/fromEvent';
 export class FunctionalBtnWrapComponent implements OnInit {
   constructor(
     private readonly router: Router,
-    private todoService: TodoService
+    private todoService: TodoService,
+    private route: ActivatedRoute
   ) {}
 
   ETodoFilter = ETodoFilter;
   currentFilter = this.todoService.getCurrentFilter();
 
   handleAddBtnClick = () => {
-    this.router.navigate(['/add-new-todo']);
+    // this.router.navigate(['add-new-todo'], { relativeTo: this.route });
+    this.router.navigate(['add-new-todo']);
   };
 
   handleFilterBtnClick = (e: Event) => {

@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { EDialogType, ETodoFilter, ITodo } from 'src/app/type';
+import { EDialogType, ETodoFilter, ITodo } from 'src/app/modules/todo-app/type';
 import { TodoApiService } from './todo-api.service';
 
 @Injectable({

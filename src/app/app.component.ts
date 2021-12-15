@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, VERSION } from '@angular/core';
 
 @Component({
@@ -9,5 +10,9 @@ export class AppComponent {
   title = 'ncc-angular-training';
   name = 'Angular' + VERSION.major;
 
-  constructor() {}
+  constructor(private router: Router) {}
+
+  goToToDoAppClick() {
+    this.router.navigate(['todo']);
+  }
 }

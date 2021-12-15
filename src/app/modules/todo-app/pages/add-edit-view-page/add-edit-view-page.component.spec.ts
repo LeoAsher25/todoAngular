@@ -1,4 +1,4 @@
-import { AddEditViewPageComponent } from 'src/app/todo-app/pages/add-edit-view-page/add-edit-view-page.component';
+import { AddEditViewPageComponent } from 'src/app/modules/todo-app/pages/add-edit-view-page/add-edit-view-page.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('AddEditViewPageComponent', () => {

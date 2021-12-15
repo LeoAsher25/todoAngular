@@ -1,4 +1,5 @@
-import { TodoService } from 'src/app/todo-app/services/todo.service';
+import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({

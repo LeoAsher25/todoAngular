@@ -1,4 +1,5 @@
-import { TodoAppComponent } from 'src/app/todo-app/todo-app.component';
+import { TodoAppComponent } from 'src/app/modules/todo-app/todo-app.component';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('TodoAppComponent', () => {

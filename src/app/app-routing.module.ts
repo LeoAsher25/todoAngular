@@ -1,11 +1,16 @@
-import { TodoAppComponent } from 'src/app/todo-app/todo-app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomePageComponent } from 'src/app/modules/todo-app/pages/home-page/home-page.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'todo',
+    pathMatch: 'full',
+  },
+  {
     path: 'todo',
-    component: TodoAppComponent,
+    component: HomePageComponent,
   },
 ];
 

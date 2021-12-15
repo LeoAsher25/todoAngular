@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { ITodo } from 'src/app/type';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ITodo } from 'src/app/modules/todo-app/type';
 import * as moment from 'moment';
 
 @Component({
@@ -16,16 +16,18 @@ export class TodoItemComponent implements OnInit {
   @Output() handleEditTodo: EventEmitter<ITodo> = new EventEmitter<ITodo>();
   @Output() handleDeleteTodo: EventEmitter<ITodo> = new EventEmitter<ITodo>();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {}
 
   handleViewBtnClick = () => {
+    // this.router.navigate([`view/${this.todo.id}`], { relativeTo: this.route });
     this.router.navigate([`view/${this.todo.id}`]);
     this.handleViewTodo.emit(this.todo);
   };
 
   handleEditBtnClick = () => {
+    // this.router.navigate([`edit/${this.todo.id}`], { relativeTo: this.route });
     this.router.navigate([`edit/${this.todo.id}`]);
     this.handleEditTodo.emit(this.todo);
   };

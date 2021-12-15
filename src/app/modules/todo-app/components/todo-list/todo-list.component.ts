@@ -1,6 +1,6 @@
+import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
 import { Component, OnInit } from '@angular/core';
-import { EDialogType, ITodo } from 'src/app/type';
-import { TodoService } from './../../services/todo.service';
+import { EDialogType, ITodo } from 'src/app/modules/todo-app/type';
 
 @Component({
   selector: 'todo-list',
@@ -13,9 +13,9 @@ export class TodoListComponent implements OnInit {
   constructor(private todoService: TodoService) {}
 
   ngOnInit(): void {
-    this.todoService.filteredTodos$.subscribe(
-      (todos: ITodo[]) => (this.todos = todos)
-    );
+    this.todoService.filteredTodos$.subscribe((todos: ITodo[]) => {
+      this.todos = todos;
+    });
   }
 
   handleChangeTodoStatus(todo: ITodo) {
