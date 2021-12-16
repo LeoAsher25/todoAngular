@@ -1,7 +1,7 @@
-import { ITodo } from 'src/app/modules/todo-app/type';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ITodo } from 'src/app/modules/todo-app/type';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,6 +12,10 @@ export class TodoApiService {
 
   getAllTodoApi(): Observable<ITodo[]> {
     return this.http.get<ITodo[]>(environment.serveUrl);
+  }
+
+  getTodoByIdApi(id: string): Observable<ITodo> {
+    return this.http.get<ITodo>(`${environment.serveUrl}/${id}`);
   }
 
   deleteTodoApi(id: string): Observable<ITodo> {

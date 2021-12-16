@@ -21,17 +21,6 @@ export class TodoService implements OnInit {
   filteredTodos$: Observable<ITodo[]> =
     this.filteredTodosSubject.asObservable();
 
-  //selectedTodo
-  private selectedTodoSubject: BehaviorSubject<ITodo> =
-    new BehaviorSubject<ITodo>({
-      id: '0',
-      name: '',
-      isCompleted: false,
-      deadline: null,
-    });
-
-  selectedTodo$ = this.selectedTodoSubject.asObservable();
-
   //  currentFilter
   private currentFilterSubject = new BehaviorSubject<ETodoFilter>(
     ETodoFilter.All
@@ -111,8 +100,8 @@ export class TodoService implements OnInit {
     );
   }
 
-  getATodo(todo: ITodo) {
-    this.selectedTodoSubject.next(todo);
+  getTodoById(id: string) {
+    return this.todoApiService.getTodoByIdApi(id);
   }
 
   handleFilter() {
