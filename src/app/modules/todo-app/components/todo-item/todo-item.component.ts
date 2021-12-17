@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
-import { ITodo } from 'src/app/modules/todo-app/type';
+import { ITodo } from 'src/app/modules/todo-app/shared/types';
 
 @Component({
   selector: 'todo-item',

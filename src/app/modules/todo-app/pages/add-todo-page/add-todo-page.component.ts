@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
-import { EDialogType, ITodo } from 'src/app/modules/todo-app/type';
+import { EDialogType, ITodo } from 'src/app/modules/todo-app/shared/types';
 
 @Component({
   selector: 'add-todo-page',
   templateUrl: './add-todo-page.component.html',
 })
 export class AddPageComponent implements OnInit {
-  EDialogType = EDialogType;
   dialogType = EDialogType.ADD;
 
   currentTodo: ITodo = {
@@ -30,7 +29,6 @@ export class AddPageComponent implements OnInit {
   };
 
   handleFormSubmit(newTodo: ITodo) {
-    console.log('add');
     this.todoService.addTodo(newTodo);
   }
 }

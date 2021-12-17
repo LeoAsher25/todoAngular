@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
-import { ETodoFilter } from 'src/app/modules/todo-app/type';
+import { ETodoFilter } from 'src/app/modules/todo-app/shared/types';
 
 @Component({
   selector: 'functional-btn-wrap',
@@ -19,7 +19,6 @@ export class FunctionalBtnWrapComponent implements OnInit {
   currentFilter = this.todoService.getCurrentFilter();
 
   handleAddBtnClick = () => {
-    // this.router.navigate(['add-new-todo'], { relativeTo: this.route });
     this.router.navigate(['add-new-todo']);
   };
 

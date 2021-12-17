@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EDialogType, ITodo } from 'src/app/modules/todo-app/type';
+import { NgForm } from '@angular/forms';
+import { EDialogType, ITodo } from 'src/app/modules/todo-app/shared/types';
 
 @Component({
   selector: 'add-edit-view-form',
@@ -56,7 +57,6 @@ export class AddEditViewFormComponent implements OnInit {
 
     if (!this.alertEmpty.name && !this.alertEmpty.deadline) {
       this.handleFormSubmit.emit(this.currentTodo);
-      console.log('click submit', this.currentTodo);
       this.handleCloseBtnClick();
     }
   }

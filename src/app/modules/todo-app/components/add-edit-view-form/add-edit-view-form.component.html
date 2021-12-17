@@ -13,7 +13,7 @@
     </div>
 
     <div class="dialog-content">
-      <form action="">
+      <form action="" #todoForm="ngForm" (submit)="onSubmit()">
         <div class="form-gr">
           <label for="name" class="label"> Todo name: </label>
           <input
@@ -23,7 +23,6 @@
             autocomplete="off"
             [(ngModel)]="currentTodo.name"
             (blur)="checkInputName()"
-            (keyup.enter)="onSubmit()"
             placeholder="Todo name"
             [disabled]="dialogType === EDialogType.VIEW"
           />
@@ -40,7 +39,6 @@
             id="deadline"
             [(ngModel)]="currentTodo.deadline"
             (blur)="checkInputDeadline()"
-            (keyup.enter)="onSubmit()"
             [disabled]="dialogType === EDialogType.VIEW"
           />
           <span class="alert" *ngIf="alertEmpty.deadline"

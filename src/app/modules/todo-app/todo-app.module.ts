@@ -26,18 +26,6 @@ import { TodoAppRoutingModule } from 'src/app/modules/todo-app/todo-app-routing.
     EditPageComponent,
     HomePageComponent,
   ],
-  imports: [
-    CommonModule,
-    TodoAppRoutingModule,
-    RouterModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 2500,
-      progressBar: true,
-      closeButton: true,
-    }),
-  ],
+  imports: [CommonModule, TodoAppRoutingModule, RouterModule, FormsModule],
 })
 export class TodoAppModule {}

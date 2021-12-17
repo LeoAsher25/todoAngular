@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
-import { EDialogType, ITodo } from 'src/app/modules/todo-app/type';
+import { EDialogType, ITodo } from 'src/app/modules/todo-app/shared/types';
 
 @Component({
   selector: 'todo-list',

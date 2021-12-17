@@ -1,15 +1,14 @@
+import { EDialogType, ITodo } from 'src/app/modules/todo-app/shared/types';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { pluck } from 'rxjs/operators';
 import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
-import { EDialogType, ITodo } from 'src/app/modules/todo-app/type';
 
 @Component({
   selector: 'view-todo-page',
   templateUrl: './view-todo-page.component.html',
 })
 export class ViewPageComponent implements OnInit {
-  EDialogType = EDialogType;
   dialogType = EDialogType.VIEW;
 
   currentTodo: ITodo = {
@@ -26,13 +25,12 @@ export class ViewPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(pluck('id'))
-      .subscribe((paramId) =>
-        this.todoService
-          .getTodoById(paramId)
-          .subscribe((todo) => (this.currentTodo = todo))
+    this.route.params.pipe(pluck('id')).subscribe((paramId) => {
+      this.todoService.getTodoById(paramId);
+      this.todoService.selectedTodo$.subscribe(
+        (todo) => (this.currentTodo = todo)
       );
+    });
   }
 
   handleCloseBtnClick = () => {

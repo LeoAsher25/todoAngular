@@ -1,7 +1,12 @@
+import { catchError, retry, take } from 'rxjs/operators';
 import { Injectable, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { EDialogType, ETodoFilter, ITodo } from 'src/app/modules/todo-app/type';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  EDialogType,
+  ETodoFilter,
+  ITodo,
+} from 'src/app/modules/todo-app/shared/types';
 import { TodoApiService } from './todo-api.service';
 
 @Injectable({
@@ -27,6 +32,15 @@ export class TodoService implements OnInit {
   );
   currentFilter$ = this.currentFilterSubject.asObservable();
 
+  private selectedTodo: BehaviorSubject<ITodo> = new BehaviorSubject<ITodo>({
+    id: '',
+    name: '',
+    isCompleted: false,
+    deadline: null,
+  });
+
+  selectedTodo$: Observable<ITodo> = this.selectedTodo.asObservable();
+
   setCurrentFilter(value: ETodoFilter) {
     this.currentFilterSubject.next(value);
   }
@@ -46,16 +60,22 @@ export class TodoService implements OnInit {
     return this.dialogType;
   }
 
+  getTodoById(id: string) {
+    return this.todoApiService.getTodoByIdApi(id).subscribe(
+      (todo) => this.selectedTodo.next(todo),
+      (error) => {
+        this.toast.error(error.message, error.title ? error.title : '');
+      }
+    );
+  }
+
   //methods
   getAllTodo() {
-    this.todoApiService.getAllTodoApi().subscribe(
-      (todos) => {
-        this.todos = todos;
-        this.filteredTodosSubject.next(this.todos);
-        this.handleFilter();
-      },
-      (error) => this.toast.error(error.message)
-    );
+    this.todoApiService.getAllTodoApi().subscribe((todos) => {
+      this.todos = todos;
+      this.filteredTodosSubject.next(this.todos);
+      this.handleFilter();
+    });
   }
 
   addTodo(newTodo: ITodo) {
@@ -68,7 +88,9 @@ export class TodoService implements OnInit {
         this.handleFilter();
         this.toast.success('Add todo successfully!');
       },
-      (error) => this.toast.error(error.message)
+      (error) => {
+        this.toast.error(error.message, error.title ? error.title : '');
+      }
     );
   }
 
@@ -82,26 +104,27 @@ export class TodoService implements OnInit {
         this.handleFilter();
         this.toast.success('Update todo successfully!');
       },
-      (error) => this.toast.error(error.message)
-    );
-  }
-
-  deleteTodo(deletedTodo: ITodo) {
-    this.todoApiService.deleteTodoApi(deletedTodo.id).subscribe(
-      (delTodo) => {
-        this.todos = this.todos.filter((todo) => todo.id !== delTodo.id);
-        this.filteredTodosSubject.next(this.todos);
-        this.handleFilter();
-        this.toast.success('Add todo successfully!');
-      },
       (error) => {
-        this.toast.error(error.message);
+        this.toast.error(error.message, error.title ? error.title : '');
       }
     );
   }
 
-  getTodoById(id: string) {
-    return this.todoApiService.getTodoByIdApi(id);
+  deleteTodo(deletedTodo: ITodo) {
+    this.todoApiService
+      .deleteTodoApi(deletedTodo.id)
+
+      .subscribe(
+        (delTodo) => {
+          this.todos = this.todos.filter((todo) => todo.id !== delTodo.id);
+          this.filteredTodosSubject.next(this.todos);
+          this.handleFilter();
+          this.toast.success('Add todo successfully!');
+        },
+        (error) => {
+          this.toast.error(error.message, error.title ? error.title : '');
+        }
+      );
   }
 
   handleFilter() {
