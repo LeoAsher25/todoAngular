@@ -1,0 +1,16 @@
+.todo-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  border-top: 1px solid #ccc;
+
+  todo-item:not(:first-child) {
+    border-top: 1px solid #ccc;
+  }
+
+  border-bottom: 1px solid #ccc;
+}
+
+.app-footer {
+  text-align: center;
+  margin: 1.4rem auto;
+}

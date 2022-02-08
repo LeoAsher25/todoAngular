@@ -1,0 +1,64 @@
+<ng-template
+  #todoItemBtn
+  let-btnIcon="btnIcon"
+  let-handleBtnClick="handleBtnClick"
+>
+  <button class="todo-btn" (click)="handleBtnClick()">
+    <i *ngIf="btnIcon" [class]="btnIcon"></i>
+  </button>
+</ng-template>
+
+<div class="todo-item" [class.is-completed]="todo.isCompleted">
+  <div class="is-completed-checkbox">
+    <input
+      type="checkbox"
+      name="isCompleted"
+      id="is-completed"
+      [checked]="todo.isCompleted"
+      (change)="changeTodoStatus()"
+    />
+  </div>
+
+  <div class="todo-text">
+    <div class="name">{{ todo?.name }}</div>
+    <div class="deadline">
+      Deadline:
+      {{ todo.deadline ? (todo.deadline | date: "short") : "No deadline" }}
+      <span *ngIf="isExpireSoon()" class="alert-deadline alert-expire-soon">
+        Expire soon!
+      </span>
+      <span *ngIf="isExpired()" class="alert-deadline alert-expired">
+        Expired!
+      </span>
+    </div>
+  </div>
+
+  <div class="action-wrap">
+    <ng-container
+      [ngTemplateOutlet]="todoItemBtn"
+      [ngTemplateOutletContext]="{
+        btnIcon: 'far fa-eye',
+        handleBtnClick: handleViewBtnClick
+      }"
+    >
+    </ng-container>
+
+    <ng-container
+      [ngTemplateOutlet]="todoItemBtn"
+      [ngTemplateOutletContext]="{
+        btnIcon: 'far fa-edit',
+        handleBtnClick: handleEditBtnClick
+      }"
+    >
+    </ng-container>
+
+    <ng-container
+      [ngTemplateOutlet]="todoItemBtn"
+      [ngTemplateOutletContext]="{
+        btnIcon: 'far fa-trash-alt',
+        handleBtnClick: handleDeleteBtnClick
+      }"
+    >
+    </ng-container>
+  </div>
+</div>

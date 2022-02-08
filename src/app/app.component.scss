@@ -1,0 +1,12 @@
+.todo-app {
+  background: linear-gradient(to left, #67a1f8, #ffd085);
+  height: 100vh;
+  position: relative;
+}
+
+.go-to-todo-app {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  z-index: 100;
+}

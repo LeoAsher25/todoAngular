@@ -1,0 +1,12 @@
+<div class="todo-list">
+  <todo-item
+    *ngFor="let todo of todos"
+    [todo]="todo"
+    (handleChangeTodoStatus)="handleChangeTodoStatus($event)"
+    (handleEditTodo)="handleEditTodo($event)"
+    (handleViewTodo)="handleViewTodo($event)"
+    (handleDeleteTodo)="handleDeleteTodo($event)"
+  >
+  </todo-item>
+</div>
+<div class="app-footer">Total: {{ todos.length }} todos</div>

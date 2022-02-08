@@ -1,18 +1,25 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { AppComponent } from 'src/app/app.component';
+import { TodoAppModule } from 'src/app/modules/todo-app/todo-app.module';
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TodoAppModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 2500,
+      progressBar: true,
+      closeButton: true,
+    }),
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

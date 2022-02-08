@@ -1,0 +1,70 @@
+@import "/src/app/modules/todo-app/variable.scss";
+
+.dialog {
+  .dialog-wrap {
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    padding: 3rem;
+
+    background-color: #fff;
+    box-shadow: 0.5rem 0.5rem 1.2rem rgba(0, 0, 0, 0.2);
+
+    position: absolute;
+    top: 10rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
+
+    z-index: 100;
+
+    .title {
+      margin-bottom: 2rem;
+      font-size: 2.2rem;
+    }
+
+    .dialog-content {
+      width: 36rem;
+      padding-bottom: 2rem;
+
+      .form-gr {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin: 2rem auto 2.4rem;
+
+        input {
+          margin-top: 0.4rem;
+          box-sizing: border-box;
+          width: 100%;
+          padding: 0.5rem 1.4rem;
+        }
+
+        .alert {
+          position: absolute;
+          top: 100%;
+          font-size: 1.3rem;
+          color: $danger-color;
+          margin-left: 1.6rem;
+        }
+      }
+    }
+
+    .dialog-action {
+      display: flex;
+      justify-content: flex-end;
+
+      .dialog-btn {
+        cursor: pointer;
+        margin-left: 1.5rem;
+        padding: 0.6rem 1.6rem;
+
+        &:nth-child(1):hover {
+          background-color: $primary-color;
+        }
+
+        &:nth-child(2):hover {
+          background-color: $danger-color;
+        }
+      }
+    }
+  }
+}

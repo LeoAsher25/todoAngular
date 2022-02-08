@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "9dc16007-ecf6-48a8-be18-b7440641b936"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -26,13 +29,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "node_modules/ngx-toastr/toastr.css", "src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -94,12 +92,112 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "node_modules/ngx-toastr/toastr.css", "src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "appRouting": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/app-routing",
+      "sourceRoot": "projects/app-routing/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/appRouting",
+            "index": "projects/app-routing/src/index.html",
+            "main": "projects/app-routing/src/main.ts",
+            "polyfills": "projects/app-routing/src/polyfills.ts",
+            "tsConfig": "projects/app-routing/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/app-routing/src/favicon.ico",
+              "projects/app-routing/src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "node_modules/ngx-toastr/toastr.css",
+              "projects/app-routing/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/app-routing/src/environments/environment.ts",
+                  "with": "projects/app-routing/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "appRouting:build:production"
+            },
+            "development": {
+              "browserTarget": "appRouting:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "appRouting:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/app-routing/src/test.ts",
+            "polyfills": "projects/app-routing/src/polyfills.ts",
+            "tsConfig": "projects/app-routing/tsconfig.spec.json",
+            "karmaConfig": "projects/app-routing/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/app-routing/src/favicon.ico",
+              "projects/app-routing/src/assets"
+            ],
+            "styles": [
+              "node_modules/ngx-toastr/toastr.css",
+              "projects/app-routing/src/styles.scss"
             ],
             "scripts": []
           }
