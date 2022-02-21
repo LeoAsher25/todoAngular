@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   EDialogType,
+  ERequestStatus,
   ETodoFilter,
   ITodo,
 } from 'src/app/modules/todo-app/shared/types';
@@ -13,11 +14,6 @@ import { TodoApiService } from './todo-api.service';
   providedIn: 'root',
 })
 export class TodoService implements OnInit {
-  constructor(
-    private todoApiService: TodoApiService,
-    private toast: ToastrService
-  ) {}
-
   private todos!: ITodo[]; // list todo
 
   private filteredTodosSubject: BehaviorSubject<ITodo[]> = new BehaviorSubject<
@@ -41,6 +37,22 @@ export class TodoService implements OnInit {
 
   selectedTodo$: Observable<ITodo> = this.selectedTodo.asObservable();
 
+  private requestStatusSB: BehaviorSubject<ERequestStatus> =
+    new BehaviorSubject<ERequestStatus>(ERequestStatus.PENDING);
+
+  get requestStatus$(): Observable<ERequestStatus> {
+    return this.requestStatusSB.asObservable();
+  }
+
+  set requestStatus(status: ERequestStatus) {
+    this.requestStatusSB.next(status);
+  }
+
+  constructor(
+    private todoApiService: TodoApiService,
+    private toast: ToastrService
+  ) {}
+
   setCurrentFilter(value: ETodoFilter) {
     this.currentFilterSubject.next(value);
   }
@@ -61,8 +73,12 @@ export class TodoService implements OnInit {
   }
 
   getTodoById(id: string) {
+    this.requestStatus = ERequestStatus.PENDING;
     return this.todoApiService.getTodoByIdApi(id).subscribe(
-      (todo) => this.selectedTodo.next(todo),
+      (todo) => {
+        this.selectedTodo.next(todo);
+        this.requestStatus = ERequestStatus.FULFILLED;
+      },
       (error) => {
         this.toast.error(error.message, error.title ? error.title : '');
       }
@@ -71,14 +87,17 @@ export class TodoService implements OnInit {
 
   //methods
   getAllTodo() {
+    this.requestStatus = ERequestStatus.PENDING;
     this.todoApiService.getAllTodoApi().subscribe((todos) => {
       this.todos = todos;
       this.filteredTodosSubject.next(this.todos);
       this.handleFilter();
+      this.requestStatus = ERequestStatus.FULFILLED;
     });
   }
 
   addTodo(newTodo: ITodo) {
+    this.requestStatus = ERequestStatus.PENDING;
     const date = new Date(Date.now()).getTime();
     newTodo.id = date.toString();
     this.todoApiService.addTodoApi(newTodo).subscribe(
@@ -87,6 +106,7 @@ export class TodoService implements OnInit {
         this.filteredTodosSubject.next(this.todos);
         this.handleFilter();
         this.toast.success('Add todo successfully!');
+        this.requestStatus = ERequestStatus.FULFILLED;
       },
       (error) => {
         this.toast.error(error.message, error.title ? error.title : '');
@@ -95,6 +115,7 @@ export class TodoService implements OnInit {
   }
 
   updateTodo(updatedTodo: ITodo) {
+    this.requestStatus = ERequestStatus.PENDING;
     this.todoApiService.putTodoApi(updatedTodo).subscribe(
       (newTodo) => {
         this.todos = this.todos.map((todo) =>
@@ -103,6 +124,7 @@ export class TodoService implements OnInit {
         this.filteredTodosSubject.next(this.todos);
         this.handleFilter();
         this.toast.success('Update todo successfully!');
+        this.requestStatus = ERequestStatus.FULFILLED;
       },
       (error) => {
         this.toast.error(error.message, error.title ? error.title : '');
@@ -111,6 +133,7 @@ export class TodoService implements OnInit {
   }
 
   deleteTodo(deletedTodo: ITodo) {
+    this.requestStatus = ERequestStatus.PENDING;
     this.todoApiService
       .deleteTodoApi(deletedTodo.id)
 
@@ -120,6 +143,7 @@ export class TodoService implements OnInit {
           this.filteredTodosSubject.next(this.todos);
           this.handleFilter();
           this.toast.success('Add todo successfully!');
+          this.requestStatus = ERequestStatus.FULFILLED;
         },
         (error) => {
           this.toast.error(error.message, error.title ? error.title : '');

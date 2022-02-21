@@ -5,10 +5,10 @@
     <div class="title">
       {{
         dialogType == EDialogType.VIEW
-          ? "View todo: " + currentDialogTitle
+          ? 'View todo: ' + currentTodo.name
           : dialogType == EDialogType.EDIT
-          ? "Edit todo: " + currentDialogTitle
-          : "Add new todo"
+          ? 'Edit todo: ' + currentTodo.name
+          : 'Add new todo'
       }}
     </div>
 
@@ -54,7 +54,7 @@
         class="dialog-btn"
         [hidden]="dialogType === EDialogType.VIEW"
       >
-        {{ dialogType === EDialogType.ADD ? "Add" : "Save" }}
+        {{ dialogType === EDialogType.ADD ? 'Add' : 'Save' }}
       </button>
 
       <button class="dialog-btn" (click)="handleCloseBtnClick()">Close</button>

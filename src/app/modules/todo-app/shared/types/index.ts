@@ -16,3 +16,9 @@ export enum ETodoFilter {
   Active = 'Active',
   Completed = 'Completed',
 }
+
+export enum ERequestStatus {
+  PENDING,
+  FULFILLED,
+  REJECTED,
+}

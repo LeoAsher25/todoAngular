@@ -22,8 +22,6 @@ export class AddEditViewFormComponent implements OnInit {
 
   @Output() handleFormSubmit: EventEmitter<ITodo> = new EventEmitter<ITodo>();
 
-  currentDialogTitle = this.currentTodo.name;
-
   alertEmpty = {
     name: false,
     deadline: false,

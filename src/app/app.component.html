@@ -1,3 +1,5 @@
 <div class="todo-app">
+  <app-loading *ngIf="(requestStatus$ | async) === ERequestStatus.PENDING">
+  </app-loading>
   <router-outlet></router-outlet>
 </div>
