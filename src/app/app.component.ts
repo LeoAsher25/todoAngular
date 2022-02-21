@@ -7,7 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { Component, VERSION, OnInit } from '@angular/core';
 import { TodoService } from 'src/app/modules/todo-app/shared/services/todo.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,11 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
   constructor(private router: Router, private todoService: TodoService) {}
   ERequestStatus = ERequestStatus;
-  requestStatus$: Observable<ERequestStatus> = new Observable();
+
+  requestStatusSB: BehaviorSubject<ERequestStatus> =
+    new BehaviorSubject<ERequestStatus>(ERequestStatus.FULFILLED);
+  requestStatus$: Observable<ERequestStatus> =
+    this.requestStatusSB.asObservable();
 
   ngOnInit(): void {
     this.requestStatus$ = this.todoService.requestStatus$;
